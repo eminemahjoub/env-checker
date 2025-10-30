@@ -1,5 +1,5 @@
 {
-  "name": "checkmyenv",
+  "name": "@eminemah/checkmyenv",
   "version": "1.0.0",
   "description": "CLI to scan code for process.env vars, compare with .env, and sync with .env.example",
   "type": "module",
