@@ -14,7 +14,7 @@ Scan your project for `process.env.*` usages, compare them with your `.env`, and
 ### Installation
 
 ```bash
-npm install -g checkmyenv
+npm install -g @eminemah/checkmyenv
 ```
 
 Requires Node.js >= 18.
