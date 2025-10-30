@@ -1,6 +1,6 @@
 {
   "name": "@eminemah/checkmyenv",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CLI to scan code for process.env vars, compare with .env, and sync with .env.example",
   "type": "module",
   "bin": {
