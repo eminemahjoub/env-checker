@@ -16,7 +16,7 @@ const pkg = (() => {
 
 const program = new Command();
 program
-  .name('env-checker')
+  .name('checkmyenv')
   .description('Scan project for process.env variables, compare with .env, and sync with .env.example')
   .version(pkg.version);
 

@@ -1,10 +1,10 @@
 {
-  "name": "env-checker",
+  "name": "checkmyenv",
   "version": "1.0.0",
   "description": "CLI to scan code for process.env vars, compare with .env, and sync with .env.example",
   "type": "module",
   "bin": {
-    "env-checker": "bin/env-checker.js"
+    "checkmyenv": "bin/checkmyenv.js"
   },
   "files": [
     "bin",
@@ -13,8 +13,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "start": "node bin/env-checker.js",
-    "dev": "node --watch bin/env-checker.js",
+    "start": "node bin/checkmyenv.js",
+    "dev": "node --watch bin/checkmyenv.js",
     "prepare": ""
   },
   "keywords": [

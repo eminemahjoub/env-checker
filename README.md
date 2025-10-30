@@ -1,4 +1,4 @@
-## env-checker
+## checkmyenv
 
 Scan your project for `process.env.*` usages, compare them with your `.env`, and keep `.env` in sync with `.env.example`.
 
@@ -14,7 +14,7 @@ Scan your project for `process.env.*` usages, compare them with your `.env`, and
 ### Installation
 
 ```bash
-npm install -g env-checker
+npm install -g checkmyenv
 ```
 
 Requires Node.js >= 18.
@@ -23,13 +23,13 @@ Requires Node.js >= 18.
 
 ```bash
 # Show report of missing/unused variables
-env-checker check
+checkmyenv check
 
 # Create/update .env by prompting for missing values
-env-checker generate
+checkmyenv generate
 
 # Merge .env with .env.example (prompts for any missing values)
-env-checker sync
+checkmyenv sync
 ```
 
 Options:
@@ -43,13 +43,13 @@ Options:
 
 ```bash
 # Scan a monorepo workspace
-env-checker check -p "packages/**/*.{ts,tsx}" -i "**/node_modules/**" "**/dist/**"
+checkmyenv check -p "packages/**/*.{ts,tsx}" -i "**/node_modules/**" "**/dist/**"
 
 # Generate .env in a custom path
-env-checker generate -e ./config/.env
+checkmyenv generate -e ./config/.env
 
 # Sync with a custom example file
-env-checker sync -e .env -x .env.example
+checkmyenv sync -e .env -x .env.example
 ```
 
 ### How it works
