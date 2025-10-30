@@ -4,6 +4,7 @@ import { createRequire } from 'module';
 import { runCheck } from './commands/check.js';
 import { runGenerate } from './commands/generate.js';
 import { runSync } from './commands/sync.js';
+import { runQuickInit } from './commands/quick.js';
 
 const require = createRequire(import.meta.url);
 const pkg = (() => {
@@ -47,6 +48,18 @@ program
   .option('-x, --example-file <path>', 'Path to .env.example file', '.env.example')
   .action(async (options) => {
     await runSync(options);
+  });
+
+// Shorthand: positional keys to create/update in .env via prompts
+program
+  .option('-e, --env-file <path>', 'Path to .env file', '.env')
+  .argument('[keys...]', 'Env variable keys to ensure in .env')
+  .action(async (keys, opts) => {
+    if (Array.isArray(keys) && keys.length > 0) {
+      await runQuickInit(opts, keys);
+    } else {
+      program.outputHelp();
+    }
   });
 
 program.showHelpAfterError(chalk.red('\nError:'));

@@ -22,6 +22,12 @@ Requires Node.js >= 18.
 ### Usage
 
 ```bash
+# Using npx (recommended)
+npx @eminemah/checkmyenv DB_URL API_KEY PORT SECRET_KEY
+
+# Or, if globally installed correctly
+checkmyenv DB_URL API_KEY PORT SECRET_KEY
+
 # Show report of missing/unused variables
 checkmyenv check
 
