@@ -1,0 +1,46 @@
+{
+  "name": "env-checker",
+  "version": "1.0.0",
+  "description": "CLI to scan code for process.env vars, compare with .env, and sync with .env.example",
+  "type": "module",
+  "bin": {
+    "env-checker": "bin/env-checker.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node bin/env-checker.js",
+    "dev": "node --watch bin/env-checker.js",
+    "prepare": ""
+  },
+  "keywords": [
+    "env",
+    "dotenv",
+    "cli",
+    "environment",
+    "checker",
+    "sync"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "glob": "^11.0.0",
+    "inquirer": "^9.3.7"
+  }
+}
+
+
