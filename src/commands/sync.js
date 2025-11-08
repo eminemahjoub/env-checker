@@ -1,10 +1,14 @@
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { loadEnvFile, loadExample, mergeWithExample, saveEnvFile } from '../utils/envManager.js';
+import { DEFAULT_ENV_FILE, DEFAULT_EXAMPLE_FILE } from '../utils/constants.js';
+import { loadConfig } from '../utils/config.js';
 
 export async function runSync(options) {
-  const envFile = options.envFile || '.env';
-  const exampleFile = options.exampleFile || '.env.example';
+  const config = await loadConfig();
+  const envFile = options.envFile ?? config?.envFile ?? DEFAULT_ENV_FILE;
+  const exampleFile =
+    options.exampleFile ?? config?.exampleFile ?? DEFAULT_EXAMPLE_FILE;
 
   const { vars: envVars } = loadEnvFile(envFile);
   const exampleVars = loadExample(exampleFile);
@@ -38,5 +42,4 @@ export async function runSync(options) {
   const savedPath = saveEnvFile(envFile, merged);
   console.log(chalk.cyan(`Synced with ${exampleFile} and saved ${savedPath}`));
 }
-
 

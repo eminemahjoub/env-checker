@@ -1,9 +1,12 @@
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { loadEnvFile, saveEnvFile } from '../utils/envManager.js';
+import { DEFAULT_ENV_FILE } from '../utils/constants.js';
+import { loadConfig } from '../utils/config.js';
 
 export async function runQuickInit(options, keys) {
-  const envFile = options.envFile || '.env';
+  const config = await loadConfig();
+  const envFile = options.envFile ?? config?.envFile ?? DEFAULT_ENV_FILE;
   const { vars } = loadEnvFile(envFile);
 
   const targetKeys = Array.from(new Set(keys)).filter(Boolean);
@@ -15,7 +18,12 @@ export async function runQuickInit(options, keys) {
   const missing = targetKeys.filter((k) => !vars.has(k));
   const answers = missing.length
     ? await inquirer.prompt(
-        missing.map((key) => ({ type: 'input', name: key, message: `Value for ${key}:`, default: '' }))
+        missing.map((key) => ({
+          type: 'input',
+          name: key,
+          message: `Value for ${key}:`,
+          default: ''
+        }))
       )
     : {};
 
@@ -29,5 +37,4 @@ export async function runQuickInit(options, keys) {
   const savedPath = saveEnvFile(envFile, updated);
   console.log(chalk.cyan(`Saved ${savedPath}`));
 }
-
 

@@ -1,40 +1,48 @@
-import chalk from 'chalk';
 import { scanForEnvVariables } from '../utils/fileScanner.js';
 import { loadEnvFile, computeDiff } from '../utils/envManager.js';
+import {
+  DEFAULT_INCLUDE_PATTERNS,
+  DEFAULT_IGNORE_PATTERNS,
+  DEFAULT_ENV_FILE,
+  DEFAULT_REPORT_FORMAT
+} from '../utils/constants.js';
+import { loadConfig } from '../utils/config.js';
+import { outputReport } from '../utils/reporters.js';
+
+function normaliseArray(value) {
+  if (!value) return undefined;
+  if (Array.isArray(value)) return value;
+  return [value];
+}
 
 export async function runCheck(options) {
-  const include = options.patterns || ['**/*.{js,jsx,ts,tsx,mjs,cjs,vue,svelte}'];
-  const ignore = options.ignore || ['**/node_modules/**', '**/dist/**', '**/build/**', '**/.git/**'];
-  const envFile = options.envFile || '.env';
+  const config = await loadConfig();
+
+  const include =
+    normaliseArray(options.patterns) ??
+    normaliseArray(config?.patterns) ??
+    DEFAULT_INCLUDE_PATTERNS;
+  const ignore =
+    normaliseArray(options.ignore) ??
+    normaliseArray(config?.ignore) ??
+    DEFAULT_IGNORE_PATTERNS;
+  const envFile = options.envFile ?? config?.envFile ?? DEFAULT_ENV_FILE;
+  const reportFormat = options.report ?? config?.report ?? DEFAULT_REPORT_FORMAT;
+  const additionalKeys = normaliseArray(config?.additionalKeys) ?? [];
 
   const used = await scanForEnvVariables(include, ignore);
+  additionalKeys.forEach((key) => {
+    if (typeof key === 'string' && key.trim()) {
+      used.add(key.trim());
+    }
+  });
+
   const { vars } = loadEnvFile(envFile);
   const diff = computeDiff(used, vars);
 
-  const totalUsed = [...used].length;
-  console.log(chalk.cyan(`Scanned variables used in code: ${totalUsed}`));
-  console.log();
-
-  if (diff.missing.length === 0 && diff.unused.length === 0) {
-    console.log(chalk.green('All good! .env matches variables used in code.'));
-    return;
-  }
-
-  if (diff.missing.length > 0) {
-    console.log(chalk.yellow('Missing in .env (used in code but not set):'));
-    for (const key of diff.missing) {
-      console.log(`  ${chalk.yellow('•')} ${key}`);
-    }
-    console.log();
-  }
-
-  if (diff.unused.length > 0) {
-    console.log(chalk.gray('Unused in code (present in .env but not referenced):'));
-    for (const key of diff.unused) {
-      console.log(`  ${chalk.gray('•')} ${key}`);
-    }
-    console.log();
-  }
+  outputReport(reportFormat, diff, {
+    usedCount: used.size,
+    envFile
+  });
 }
-
 

@@ -24,9 +24,10 @@ program
 program
   .command('check')
   .description('Scan project and show report of missing, extra, and unused env vars')
-  .option('-p, --patterns <globs...>', 'Glob patterns to include', ['**/*.{js,jsx,ts,tsx,mjs,cjs,vue,svelte}'])
-  .option('-i, --ignore <globs...>', 'Glob patterns to ignore', ['**/node_modules/**', '**/dist/**', '**/build/**', '**/.git/**'])
-  .option('-e, --env-file <path>', 'Path to .env file', '.env')
+  .option('-p, --patterns <globs...>', 'Glob patterns to include')
+  .option('-i, --ignore <globs...>', 'Glob patterns to ignore')
+  .option('-e, --env-file <path>', 'Path to .env file')
+  .option('-r, --report <format>', 'Report format (console|json)')
   .action(async (options) => {
     await runCheck(options);
   });
@@ -34,9 +35,9 @@ program
 program
   .command('generate')
   .description('Create/update .env file with interactive prompts for missing values')
-  .option('-p, --patterns <globs...>', 'Glob patterns to include', ['**/*.{js,jsx,ts,tsx,mjs,cjs,vue,svelte}'])
-  .option('-i, --ignore <globs...>', 'Glob patterns to ignore', ['**/node_modules/**', '**/dist/**', '**/build/**', '**/.git/**'])
-  .option('-e, --env-file <path>', 'Path to .env file', '.env')
+  .option('-p, --patterns <globs...>', 'Glob patterns to include')
+  .option('-i, --ignore <globs...>', 'Glob patterns to ignore')
+  .option('-e, --env-file <path>', 'Path to .env file')
   .action(async (options) => {
     await runGenerate(options);
   });
@@ -44,15 +45,15 @@ program
 program
   .command('sync')
   .description('Merge .env with .env.example; prompt for any missing values')
-  .option('-e, --env-file <path>', 'Path to .env file', '.env')
-  .option('-x, --example-file <path>', 'Path to .env.example file', '.env.example')
+  .option('-e, --env-file <path>', 'Path to .env file')
+  .option('-x, --example-file <path>', 'Path to .env.example file')
   .action(async (options) => {
     await runSync(options);
   });
 
 // Shorthand: positional keys to create/update in .env via prompts
 program
-  .option('-e, --env-file <path>', 'Path to .env file', '.env')
+  .option('-e, --env-file <path>', 'Path to .env file')
   .argument('[keys...]', 'Env variable keys to ensure in .env')
   .action(async (keys, opts) => {
     if (Array.isArray(keys) && keys.length > 0) {
