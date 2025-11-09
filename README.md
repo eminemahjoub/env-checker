@@ -93,3 +93,9 @@ CLI flags always override config values.
 MIT
 
 
+### Connect
+
+- Launchpad: https://launchpad.net/~eminemahjoub
+- Mastodon: https://mastodon.tn/@aminemahjoub
+
+
